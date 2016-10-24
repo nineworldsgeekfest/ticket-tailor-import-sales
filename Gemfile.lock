@@ -16,6 +16,7 @@ GEM
     mini_portile2 (2.1.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
+    phantomjs (2.1.1.0)
     poltergeist (1.11.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -34,6 +35,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
+  phantomjs
   poltergeist
 
 BUNDLED WITH
