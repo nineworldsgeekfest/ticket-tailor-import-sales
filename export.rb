@@ -19,7 +19,19 @@ ticket_tailor_login = YAML.load_file('.config/login.yml')
 @username = ticket_tailor_login['username']
 @password = ticket_tailor_login['password'].to_s
 @event = ticket_tailor_login['event'].to_s
+@sheet_key = ticket_tailor_login['sheet_key'].to_s
 
+# Open a Google Drive session
+session = GoogleDrive::Session.from_service_account_key(".config/google_config.json")
+
+# Open the Google Sheet
+sheet = session.spreadsheet_by_key(@sheet_key).worksheets[0]
+
+sheet[2, 1] = "foo"
+sheet.save
+
+binding.pry
+exit
 # Initialise the Mechanize agent
 agent = Mechanize.new
 
