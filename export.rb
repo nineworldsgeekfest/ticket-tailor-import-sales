@@ -27,11 +27,9 @@ session = GoogleDrive::Session.from_service_account_key(".config/google_config.j
 # Open the Google Sheet
 sheet = session.spreadsheet_by_key(@sheet_key).worksheets[0]
 
-sheet[2, 1] = "foo"
+sheet[2, 1] = "bar"
 sheet.save
 
-binding.pry
-exit
 # Initialise the Mechanize agent
 agent = Mechanize.new
 
@@ -45,14 +43,26 @@ page = form.submit
 # Navigate to event page https://www.tickettailor.com/event/view/id/@event
 # Navigate to order mgmt https://www.tickettailor.com/event/view-orders/id/@event
 # Navigate to order export https://www.tickettailor.com/event/export-orders/id/@event
-page = agent.get "https://www.tickettailor.com/event/export-orders/id/#{@event}"
+page = agent.get "https://www.tickettailor.com/event/export-order-item-details/id/#{@event}"
 # Select download and filter fields if appropriate
 # Click export button #submit
 page = page.form.submit
 # Click long link beginning https://www.tickettailor.com/event/export-orders-download/id/@event/
 # and labelled Click here to download your orders report
-file_export = page.link_with(:text => "Click here to download your orders report").click
+file_export = page.link_with(:text => "Click here to download your order item details report").click
 # This opens a page which becomes the CSV download
+# page = web_agent.get(some_url_that_references_csv_data)
+# parsed_csv = CSV.parse(page.body)
 csv_export = CSV.parse(file_export.body)
-# Move to pry for further manipulation. Still to write the export code, targeting GSheets
-binding.pry
+# Transfer the table to the Google Sheet
+down = 1
+across = 1
+csv_export.each do |row|
+ row.each do |cell|
+   sheet[down, across] = cell
+   across += 1
+ end
+ across = 1
+ down += 1
+end
+sheet.save

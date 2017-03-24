@@ -41,7 +41,7 @@ Once you've carried out the setup, run `ruby export.rb` and it'll export the cur
 - [x] Test with dummy data, and add trapping of incorrect submissions
 - [x] Test with a large scale live import
 - [x] Log into Google Sheets and create / access a sheet
-- [ ] Select the export options
-- [ ] Export the CSV file download link to memory
-- [ ] Add new sales to the Google Sheet
+- [x] Select the export options
+- [x] Export the CSV file download link to memory
+- [x] Add new sales to the Google Sheet
 - [ ] Create regular running code, or set a cron job to run the script
