@@ -44,4 +44,6 @@ Once you've carried out the setup, run `ruby export.rb` and it'll export the cur
 - [x] Select the export options
 - [x] Export the CSV file download link to memory
 - [x] Add new sales to the Google Sheet
+- [ ] Fix the export code to work with the new Ticket Tailor order management UI
+- [ ] Chunk the Google Sheet upload into sections, to try and reduce memory usage and speed things up
 - [ ] Create regular running code, or set a cron job to run the script

@@ -38,7 +38,6 @@ page = page.links.find {|link| link.uri.to_s.include? '/checkout/view-event/id/'
 
 # Iterate through each row, adding the purchase to TT
 import_data.each do |import_row|
-
   form = page.form
 
   # Add purchases to shopping cart
@@ -75,10 +74,15 @@ import_data.each do |import_row|
     binding.pry
   end
 
-  # Enter transaction ID into confirmation form and submit allocation
-  form = page.forms[1] # form_with would be better
-  form['transactionId'] = import_row[:transactionid]
-  page = form.submit
+  # Free and paid orders have different processes
+  if page.forms[1]
+    # Enter transaction ID into confirmation form and submit allocation
+    form = page.forms[1] # form_with would be better
+    form['transactionId'] = import_row[:transactionid]
+    page = form.submit
+  else
+    page = page.forms[0].submit
+  end
 
   # Check successful submission
   if page.title != 'Order Complete'
@@ -90,7 +94,7 @@ import_data.each do |import_row|
   # Post success info
   puts 'Added order for ' + import_row[:email]
 
-  # Load up the chopping cart page ready for next time
+  # Load up the shopping cart page ready for next time
   page = page.links.find {|link|link.uri.to_s.include? 'checkout/new-order'}.click
 
 end
